@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "+QZjGQe79U3KwuCvb4AyWauhFeI9aEHvTaOX7uZAoH+nl3g0m3uGoct1l9VaXNfvZHY6rT5/pMywSq5LPk5aUQ==",
+  "success": true,
+  "projectFilePath": "B:\\conf23_bot\\confort23_bot\\confort23_bot\\confort23_bot.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kozlo\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\kozlo\\.nuget\\packages\\telegram.bot\\18.0.0\\telegram.bot.18.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
