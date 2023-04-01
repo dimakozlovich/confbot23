@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "confort23_bot", "confort23_bot\confort23_bot.csproj", "{78F058B1-25DD-4FA9-9F27-D5B0D398534C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "confort23_bot", "confort23_bot\confort23_bot.csproj", "{78F058B1-25DD-4FA9-9F27-D5B0D398534C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{158CEB88-66FA-433B-9E9B-BAD21D6B58BF}"
+	ProjectSection(SolutionItems) = preProject
+		SqlQuery_1.sql = SqlQuery_1.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -12,11 +12,12 @@ namespace confort23_bot
 {
     public class Seminars : Start
     {
-        public List<string>? imagePaths;
+        private string connectionString = "Server=.\\SQLEXPRESS;Database=master;Trusted_Connection=True;";
+        private List<string>? imagePaths;
         public Seminars() { }   
         public Seminars(string day)
         {
-            //TODO: Serializtion from file
+            //TODO: EXPORT from DB
             if (day == Messages.Day1)
             {
                 imagePaths = new List<string>()

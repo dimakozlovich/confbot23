@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace confort23_bot
 {
-    internal class RegistrationSeminar
+    public class RegistrationSeminar : Seminars
     {
     }
 }

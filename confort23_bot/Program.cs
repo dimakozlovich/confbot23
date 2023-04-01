@@ -1,13 +1,8 @@
-﻿global using Telegram.Bot;
-using confort23_bot;
+﻿using confort23_bot;
 using Microsoft.VisualBasic;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
-using Telegram.Bot.Exceptions;
-using Telegram.Bot.Polling;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
+
 
 var botClient = new TelegramBotClient("6009835688:AAF43gPAMG_ZJKASWs6BKR4BTPbOcLswQEo");
 using CancellationTokenSource cts = new();
@@ -68,6 +63,11 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
             case Messages.Day2:
               var seminarsday2 = new Seminars(Messages.Day2);
               await seminarsday2.SendSeminarPiqture(delegateSend, update.Message.Chat.Id);
+            break;
+
+            case Messages.RegistrationSeminar:
+            var seminar = new Seminar();
+            await botClient.SendTextMessageAsync(update.Message.Chat.Id,seminar.PathPicture);
             break;
 
 

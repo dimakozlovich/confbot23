@@ -10,7 +10,7 @@ namespace confort23_bot
     public class Start
     {
  
-        public List<KeyboardButton> Buttons = new List<KeyboardButton>() 
+        private List<KeyboardButton> Buttons = new List<KeyboardButton>() 
         {
            new KeyboardButton(Messages.ContactsMessage),
            new KeyboardButton(Messages.QuestionMessage),
