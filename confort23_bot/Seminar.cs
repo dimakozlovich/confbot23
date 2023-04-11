@@ -10,7 +10,7 @@ namespace confort23_bot
 {
     public class Seminar
     {
-        private string connectionString = "Server=.\\SQLEXPRESS;Database=Conffort_botDB;Trusted_Connection=True;";
+        private string connectionString = "Server=.\\SQLEXPRESS;Database=Conffort_botDB;Trusted_Connection=false;";
         private string sqlExpression = "SELECT * FROM Users";
         public string PathPicture;
         public string Description;

@@ -37,37 +37,40 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
             var start = new Start();
             await botClient.SendTextMessageAsync(update.Message.Chat.Id, update.Message.Text, replyMarkup: start.GetButtons());
                 break;
+
             case Messages.ContactsMessage:
                 var contacts = new Contacts();
                 await botClient.SendTextMessageAsync(update.Message.Chat.Id, contacts.ContactsText, replyMarkup: contacts.GetButtons());
                 break;
+
             case Messages.QuestionMessage:
                 break;
             
             case Messages.SeminarsMessage:
                var seminars = new Seminars();
                await botClient.SendTextMessageAsync(update.Message.Chat.Id,"семинары",replyMarkup: seminars.GetButtons());
-                break;
-            case Messages.GoBack:
-            start = new Start();
-            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "назад", replyMarkup: start.GetButtons());
-            break;
+               break;
 
-            
+            case Messages.GoBack:
+               start = new Start();
+               await botClient.SendTextMessageAsync(update.Message.Chat.Id, "назад", replyMarkup: start.GetButtons());
+            break;
 
             case Messages.Day1:
-            var seminarsday1 = new Seminars(Messages.Day1);
-            await seminarsday1.SendSeminarPiqture(delegateSend, update.Message.Chat.Id);
+              var seminarsday1 = new Seminars(Messages.Day1);
+              await seminarsday1.SendSeminarPiqture(delegateSend, update.Message.Chat.Id);
  
             break;
+
             case Messages.Day2:
-              var seminarsday2 = new Seminars(Messages.Day2);
-              await seminarsday2.SendSeminarPiqture(delegateSend, update.Message.Chat.Id);
-            break;
+                var seminarsday2 = new Seminars(Messages.Day2);
+                await seminarsday2.SendSeminarPiqture(delegateSend, update.Message.Chat.Id);
+             break;
 
             case Messages.RegistrationSeminar:
-            var seminar = new Seminar();
-            await botClient.SendTextMessageAsync(update.Message.Chat.Id,seminar.PathPicture);
+                var user = new confort23_bot.User(update.Message.Chat.Id);
+                var seminar = new Seminar();
+                await botClient.SendTextMessageAsync(update.Message.Chat.Id,seminar.PathPicture);
             break;
 
 
