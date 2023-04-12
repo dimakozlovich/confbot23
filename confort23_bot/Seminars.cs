@@ -12,7 +12,6 @@ namespace confort23_bot
 {
     public class Seminars : Start
     {
-        private string connectionString = "Server=.\\SQLEXPRESS;Database=master;Trusted_Connection=True;";
         private List<string>? imagePaths;
         public Seminars() { }   
         public Seminars(string day)
@@ -49,13 +48,13 @@ namespace confort23_bot
         {
             return new ReplyKeyboardMarkup(Days);
         }
-        async public Task SendSeminarPiqture(Mydelegate Send,long chatID)
+        async public virtual Task SendSeminarPiqture(Mydelegate Send,long chatID)
         {
             if (imagePaths != null)
             {
                 foreach (var imagePaths in imagePaths)
                 {
-                    await Send(chatID, imagePaths);
+                   // await Send(chatID, imagePaths,);
                 }
             }
         }

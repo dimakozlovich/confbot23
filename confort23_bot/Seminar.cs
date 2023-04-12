@@ -10,36 +10,29 @@ namespace confort23_bot
 {
     public class Seminar
     {
-        private string connectionString = "Server=.\\SQLEXPRESS;Database=Conffort_botDB;Trusted_Connection=false;";
-        private string sqlExpression = "SELECT * FROM Users";
+        public int Seminar_Id { get; set; }
         public string PathPicture;
+        public int Day { get; set; }
         public string Description;
-        public string NameButton;
-        private KeyboardButton button;
-        public Seminar()
+        public string NameButton = "Зарегистрироваться";
+        InlineKeyboardMarkup inlineKeyboard = new(new[]
         {
-    
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlDataReader reader = command.ExecuteReader();
-
-                if (reader.HasRows) // если есть данные
+                // first row
+                new[]
                 {
-                    while (reader.Read()) // построчно считываем данные
-                    {
-                        PathPicture = (string)reader.GetValue(1);
-                        Description = (string)reader.GetValue(2);
-                    }
-                }
+                    InlineKeyboardButton.WithCallbackData(text: "Зарегистрироваться", callbackData: "post"),
+                },
 
-                reader.Close();
-            }
-        }
-        public ReplyKeyboardMarkup GetSemenarButton()
+            });
+        public Seminar(string path, int id,int day)
         {
-            return new ReplyKeyboardMarkup(button);
+            PathPicture = path;
+            Seminar_Id = id;
+            Day = day;
+        }
+        public InlineKeyboardMarkup inline()
+        {
+            return inlineKeyboard;
         }
     }
 }

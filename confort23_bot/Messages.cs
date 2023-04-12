@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace confort23_bot
 {
-    public delegate Task Mydelegate(long chatId, string imagePath);
+    public delegate Task Mydelegate(long chatId, string imagePath, Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup inline);
     
     public static class Messages
     {

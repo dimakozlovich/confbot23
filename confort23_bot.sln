@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "confort23_bot", "confort23_
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{158CEB88-66FA-433B-9E9B-BAD21D6B58BF}"
 	ProjectSection(SolutionItems) = preProject
+		procedureAdd.sql = procedureAdd.sql
+		PROCEDURE_SELECT_SEMINARS.sql = PROCEDURE_SELECT_SEMINARS.sql
 		SqlQuery_1.sql = SqlQuery_1.sql
 	EndProjectSection
 EndProject

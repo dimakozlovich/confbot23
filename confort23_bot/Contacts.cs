@@ -14,7 +14,7 @@ namespace confort23_bot
         {
             using (StreamReader reader = new StreamReader("B:\\conf23_bot\\confort23_bot\\confort23_bot\\dataFiles\\contacts.txt"))
             {
-               ContactsText = reader.ReadToEnd();
+              ContactsText = reader.ReadToEnd();
             }
         }
     }
