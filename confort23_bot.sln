@@ -7,8 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "confort23_bot", "confort23_
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{158CEB88-66FA-433B-9E9B-BAD21D6B58BF}"
 	ProjectSection(SolutionItems) = preProject
+		add_seminar2_to_user.sql = add_seminar2_to_user.sql
+		add_seminar_to_user.sql = add_seminar_to_user.sql
+		findSeminarByID.sql = findSeminarByID.sql
+		findUser.sql = findUser.sql
 		procedureAdd.sql = procedureAdd.sql
 		PROCEDURE_SELECT_SEMINARS.sql = PROCEDURE_SELECT_SEMINARS.sql
+		select_day_by_id.sql = select_day_by_id.sql
 		SqlQuery_1.sql = SqlQuery_1.sql
 	EndProjectSection
 EndProject

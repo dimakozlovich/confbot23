@@ -15,20 +15,20 @@ namespace confort23_bot
         public int Day { get; set; }
         public string Description;
         public string NameButton = "Зарегистрироваться";
-        InlineKeyboardMarkup inlineKeyboard = new(new[]
-        {
-                // first row
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData(text: "Зарегистрироваться", callbackData: "post"),
-                },
-
-            });
-        public Seminar(string path, int id,int day)
+        InlineKeyboardMarkup inlineKeyboard;
+        public Seminar(string path, int id, int day)
         {
             PathPicture = path;
             Seminar_Id = id;
             Day = day;
+            inlineKeyboard = new(new[]
+            {
+
+            new[]
+                {
+                    InlineKeyboardButton.WithCallbackData(text:"Зарегистрироваться на семинар", callbackData:Convert.ToString(id)),
+                },
+           });
         }
         public InlineKeyboardMarkup inline()
         {

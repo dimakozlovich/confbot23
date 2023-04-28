@@ -3,7 +3,6 @@ using Microsoft.VisualBasic;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 
-
 var botClient = new TelegramBotClient("6009835688:AAF43gPAMG_ZJKASWs6BKR4BTPbOcLswQEo");
 using CancellationTokenSource cts = new();
 ReceiverOptions receiverOptions = new()
@@ -18,6 +17,7 @@ botClient.StartReceiving(
     cancellationToken: cts.Token
 );
 
+
 var me = await botClient.GetMeAsync();
 
 Console.WriteLine($"Start listening for @{me.Username}");
@@ -30,25 +30,31 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
     Mydelegate delegateSend = new Mydelegate(SendPhoto);
     if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
     {
+        var user = new confort23_bot.User(Convert.ToInt32(update.Message.Chat.Id));
+        Console.WriteLine(update.Message.Text);
         switch (update.Message.Text)
         {
 
             case "/start":
                 var start = new Start();
-                await botClient.SendTextMessageAsync(update.Message.Chat.Id, update.Message.Text, replyMarkup: start.GetButtons());
+                await botClient.SendTextMessageAsync(
+                    chatId:update.Message.Chat.Id,
+                    text:update.Message.Text, 
+                    parseMode:ParseMode.Html,
+                    replyMarkup: start.GetButtons());
                 break;
 
             case Messages.ContactsMessage:
                 var contacts = new Contacts();
-                await botClient.SendTextMessageAsync(update.Message.Chat.Id, contacts.ContactsText, replyMarkup: contacts.GetButtons());
+                await botClient.SendTextMessageAsync(
+                    chatId:update.Message.Chat.Id,
+                    text: contacts.ContactsText,
+                    parseMode:ParseMode.Html,
+                    replyMarkup: contacts.GetButtons());
+             
                 break;
 
             case Messages.QuestionMessage:
-                break;
-
-            case Messages.SeminarsMessage:
-                var seminars = new Seminars();
-                await botClient.SendTextMessageAsync(update.Message.Chat.Id, "семинары", replyMarkup: seminars.GetButtons());
                 break;
 
             case Messages.GoBack:
@@ -63,31 +69,22 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
                 break;
 
             case Messages.Day2:
-                var seminarsday2 = new Seminars(Messages.Day2);
+                var seminarsday2 = new RegistrationSeminars(Messages.Day2);
                 await seminarsday2.SendSeminarPiqture(delegateSend, update.Message.Chat.Id);
                 break;
 
             case Messages.RegistrationSeminar:
-                var user = new confort23_bot.User(update.Message.Chat.Id);
                 var registrationSeminars = new RegistrationSeminars();
                 await botClient.SendTextMessageAsync(update.Message.Chat.Id, "семинары", replyMarkup: registrationSeminars.GetButtons());
                 break;
-
-
         }
     }
     if (update.Type == Telegram.Bot.Types.Enums.UpdateType.CallbackQuery)
     {
+        var user = new confort23_bot.User(Convert.ToInt32(update.CallbackQuery.Message.Chat.Id));
         string codeOfButton = update.CallbackQuery.Data;
-        if (codeOfButton == "post")
-        {
-            Console.WriteLine("Нажата Кнопка 1");
-            string telegramMessage = "Вы нажали Кнопку 1";
-            await botClient.SendTextMessageAsync(chatId: update.CallbackQuery.Message.Chat.Id, telegramMessage, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html);
-        }
+        user.AddSeminar1(Convert.ToInt32(codeOfButton));
     }
-
-
 }
 async Task SendPhoto(long chatId,string imagePath, Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup inline)
 {
@@ -104,7 +101,7 @@ Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, 
             => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}",
         _ => exception.ToString()
     };
-
     Console.WriteLine(ErrorMessage);
     return Task.CompletedTask;
 }
+

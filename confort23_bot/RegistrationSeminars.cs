@@ -29,12 +29,13 @@ namespace confort23_bot
             {
                 nameParam.Value = 2;
             }
-          using(var conection = new SqlConnection(
-          "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=B:\\conf23_bot\\confort23_bot\\confort23_bot\\CONFBOTDB.mdf;Integrated Security=True"))
+          using(var conection = new SqlConnection(Messages.ConnectionString))
             {
                 conection.Open();
-                var command = new SqlCommand(sqlExpressionSelect, conection);
-                command.CommandType = CommandType.StoredProcedure;
+                string select_seminars = $"SELECT * FROM Seminars WHERE day = {nameParam.Value};";
+                var command = new SqlCommand(select_seminars, conection);
+
+              //  command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add(nameParam);
                 SqlDataReader reader = command.ExecuteReader();
 

@@ -14,8 +14,10 @@ namespace confort23_bot
         {
            new KeyboardButton(Messages.ContactsMessage),
            new KeyboardButton(Messages.QuestionMessage),
-           new KeyboardButton(Messages.SeminarsMessage),
-           new KeyboardButton(Messages.RegistrationSeminar)
+           new KeyboardButton(Messages.RegistrationSeminar),
+           new KeyboardButton(Messages.Timetable),
+           new KeyboardButton(Messages.Chat),
+           new KeyboardButton(Messages.ToGuests)
         }; 
         public virtual ReplyKeyboardMarkup GetButtons()
         {
