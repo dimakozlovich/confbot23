@@ -12,7 +12,7 @@ namespace confort23_bot
         public string ContactsText { get; set; }
         public Contacts()
         {
-            using (StreamReader reader = new StreamReader("B:\\conf23_bot\\confort23_bot\\confort23_bot\\dataFiles\\contacts.txt"))
+            using (StreamReader reader = new StreamReader("dataFiles/contacts.html"))
             {
               ContactsText = reader.ReadToEnd();
             }

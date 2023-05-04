@@ -2,6 +2,7 @@
 using Microsoft.VisualBasic;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using Telegram.Bot.Types;
 
 var botClient = new TelegramBotClient("6009835688:AAF43gPAMG_ZJKASWs6BKR4BTPbOcLswQEo");
 using CancellationTokenSource cts = new();
@@ -53,10 +54,20 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
                     replyMarkup: contacts.GetButtons());
              
                 break;
-
-            case Messages.QuestionMessage:
+            case Messages.Chat: 
+                await botClient.SendTextMessageAsync(
+                    chatId:update.Message.Chat.Id,
+                    text: "https://t.me/+i8ljq57xYzMzZWU6"
+                    );
                 break;
-
+            case Messages.Timetable:
+                var schedule = new Schedule();
+                    await botClient.SendTextMessageAsync(
+                    chatId: update.Message.Chat.Id,
+                    text: schedule.ScheduleText,
+                    parseMode: ParseMode.Html
+                    );
+            break;
             case Messages.GoBack:
                 start = new Start();
                 await botClient.SendTextMessageAsync(update.Message.Chat.Id, "назад", replyMarkup: start.GetButtons());
@@ -77,13 +88,29 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
                 var registrationSeminars = new RegistrationSeminars();
                 await botClient.SendTextMessageAsync(update.Message.Chat.Id, "семинары", replyMarkup: registrationSeminars.GetButtons());
                 break;
+            case Messages.QuestionMessage:
+                await botClient.SendTextMessageAsync(
+                   chatId: update.Message.Chat.Id,
+                   text: "Отправь свой вопрос в этот чат, что бы узнать ответ на Free Talk");
+                break;
+            case Messages.ToGuests:
+                var guest = new ToGuests();
+                await botClient.SendTextMessageAsync(
+                    chatId: update.Message.Chat.Id,
+                    text: guest.toGuestsText,
+                    parseMode: ParseMode.Html);
+                break;
         }
     }
     if (update.Type == Telegram.Bot.Types.Enums.UpdateType.CallbackQuery)
     {
         var user = new confort23_bot.User(Convert.ToInt32(update.CallbackQuery.Message.Chat.Id));
         string codeOfButton = update.CallbackQuery.Data;
-        user.AddSeminar1(Convert.ToInt32(codeOfButton));
+        string message = user.AddSeminar(Convert.ToInt32(codeOfButton));
+        if(message != null)
+        {
+            await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, message);
+        }
     }
 }
 async Task SendPhoto(long chatId,string imagePath, Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup inline)

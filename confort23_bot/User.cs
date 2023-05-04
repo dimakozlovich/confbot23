@@ -13,12 +13,7 @@ namespace confort23_bot
         private int ChatId { get; } = 0;
         public int? SeminarId1;
         public int? SeminarId2;
-        private string sqlExpressionFind = "find_User";
-        private string sqlExpressionAdd = "addUser";
-        private string sqlExpressionAddSeminar1 = "add_semiar1_to_user";
-        private string sqlExpressionAddSeminar2 = "add_semiar2_to_user";
-        private string sqlExpressionSelectDay = "select_day";
-        //INPUT
+
         private SqlParameter nameParam = new SqlParameter
         {
             ParameterName = "@chatId",
@@ -89,15 +84,16 @@ namespace confort23_bot
                 }
             }
         }
-        public void AddSeminar1(int seminar_id)
+        public string AddSeminar(int seminar_id)
         {
             idSeminar.Value = seminar_id;
             parameter.Value = Id;
+            string descriptonSeminar = null;
 
             using (var conection = new SqlConnection(Messages.ConnectionString))
             {
                 conection.Open();
-                string select_day = @$"select day from Seminars
+                string select_day = @$"select day,descrip from Seminars
                                          where seminar_id = {seminar_id}";
                 var commandSelect = new SqlCommand(select_day, conection);
                 SqlDataReader reader = commandSelect.ExecuteReader();
@@ -107,6 +103,11 @@ namespace confort23_bot
                     while (reader.Read())
                     {
                         day = reader.GetInt32(0);
+                        if (!reader.IsDBNull(reader.GetOrdinal("descrip")))
+                        {
+                            descriptonSeminar = reader.GetString(1);
+                        }
+
                     }
                 }
                 reader.Close();
@@ -132,6 +133,7 @@ namespace confort23_bot
                     Console.WriteLine("add seminar2");
                 }
             }
+            return descriptonSeminar;
         }
 
     }
