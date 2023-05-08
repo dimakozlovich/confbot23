@@ -20,78 +20,82 @@ botClient.StartReceiving(
 
 
 var me = await botClient.GetMeAsync();
+        Console.WriteLine($"Start listening for @{me.Username}");
+        Console.ReadLine();
+        cts.Cancel();
 
-Console.WriteLine($"Start listening for @{me.Username}");
-Console.ReadLine();
 
-// Send cancellation request to stop bot
-cts.Cancel();
+
 async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
 {
     Mydelegate delegateSend = new Mydelegate(SendPhoto);
-    if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
+    if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message && update.Message.Text != null)
     {
-        var user = new confort23_bot.User(Convert.ToInt32(update.Message.Chat.Id));
+       // var user = new confort23_bot.User(Convert.ToInt32(update.Message.Chat.Id));
         Console.WriteLine(update.Message.Text);
         switch (update.Message.Text)
         {
 
             case "/start":
                 var start = new Start();
+                var greetings = new Greetings();
                 await botClient.SendTextMessageAsync(
-                    chatId:update.Message.Chat.Id,
-                    text:update.Message.Text, 
-                    parseMode:ParseMode.Html,
-                    replyMarkup: start.GetButtons());
+                    chatId: update.Message.Chat.Id,
+                    text: greetings.Greetingstext,
+                    parseMode: ParseMode.Html,
+                    replyMarkup: start.GetButtons(),
+                    cancellationToken: cancellationToken);
                 break;
 
             case Messages.ContactsMessage:
                 var contacts = new Contacts();
                 await botClient.SendTextMessageAsync(
-                    chatId:update.Message.Chat.Id,
+                    chatId: update.Message.Chat.Id,
                     text: contacts.ContactsText,
-                    parseMode:ParseMode.Html,
+                    parseMode: ParseMode.Html,
                     replyMarkup: contacts.GetButtons());
-             
+
                 break;
-            case Messages.Chat: 
+            case Messages.Chat:
                 await botClient.SendTextMessageAsync(
-                    chatId:update.Message.Chat.Id,
+                    chatId: update.Message.Chat.Id,
                     text: "https://t.me/+i8ljq57xYzMzZWU6"
                     );
                 break;
             case Messages.Timetable:
                 var schedule = new Schedule();
-                    await botClient.SendTextMessageAsync(
-                    chatId: update.Message.Chat.Id,
-                    text: schedule.ScheduleText,
-                    parseMode: ParseMode.Html
-                    );
-            break;
-            case Messages.GoBack:
-                start = new Start();
-                await botClient.SendTextMessageAsync(update.Message.Chat.Id, "назад", replyMarkup: start.GetButtons());
+                await botClient.SendTextMessageAsync(
+                chatId: update.Message.Chat.Id,
+                text: schedule.ScheduleText,
+                parseMode: ParseMode.Html
+                );
                 break;
+            //case Messages.GoBack:
+            //    start = new Start();
+            //    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "назад", replyMarkup: start.GetButtons());
+            //    break;
 
-            case Messages.Day1:
-                var seminarsday1 = new RegistrationSeminars(Messages.Day1);
-                await seminarsday1.SendSeminarPiqture(delegateSend, update.Message.Chat.Id);
+            //case Messages.Day1:
+            //    var seminarsday1 = new RegistrationSeminars(Messages.Day1);
+            //    await seminarsday1.SendSeminarPiqture(delegateSend, update.Message.Chat.Id);
 
-                break;
+            //    break;
 
-            case Messages.Day2:
-                var seminarsday2 = new RegistrationSeminars(Messages.Day2);
-                await seminarsday2.SendSeminarPiqture(delegateSend, update.Message.Chat.Id);
-                break;
+            //case Messages.Day2:
+            //    var seminarsday2 = new RegistrationSeminars(Messages.Day2);
+            //    await seminarsday2.SendSeminarPiqture(delegateSend, update.Message.Chat.Id);
+            //    break;
 
-            case Messages.RegistrationSeminar:
-                var registrationSeminars = new RegistrationSeminars();
-                await botClient.SendTextMessageAsync(update.Message.Chat.Id, "семинары", replyMarkup: registrationSeminars.GetButtons());
-                break;
+            //case Messages.RegistrationSeminar:
+            //    var registrationSeminars = new RegistrationSeminars();
+            //    await botClient.SendTextMessageAsync(update.Message.Chat.Id, "семинары", replyMarkup: registrationSeminars.GetButtons());
+            //    break;
             case Messages.QuestionMessage:
                 await botClient.SendTextMessageAsync(
                    chatId: update.Message.Chat.Id,
-                   text: "Отправь свой вопрос в этот чат, что бы узнать ответ на Free Talk");
+                   parseMode: ParseMode.Html,
+                   text: @"Чтобы узнать ответ на Free Talk, отправь вопрос в формате <strong>
+                         Вопрос:</strong><i>текст вопроса</i>");
                 break;
             case Messages.ToGuests:
                 var guest = new ToGuests();
@@ -100,23 +104,21 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
                     text: guest.toGuestsText,
                     parseMode: ParseMode.Html);
                 break;
+            default:
+                await botClient.SendTextMessageAsync(-976366983, update.Message.Text);
+                break;
         }
     }
-    if (update.Type == Telegram.Bot.Types.Enums.UpdateType.CallbackQuery)
+    if(update.Message.Text == null)
     {
-        var user = new confort23_bot.User(Convert.ToInt32(update.CallbackQuery.Message.Chat.Id));
-        string codeOfButton = update.CallbackQuery.Data;
-        string message = user.AddSeminar(Convert.ToInt32(codeOfButton));
-        if(message != null)
-        {
-            await botClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, message);
-        }
+        await botClient.SendTextMessageAsync(-976366983, "null message");
     }
 }
 async Task SendPhoto(long chatId,string imagePath, Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup inline)
 {
     using (var stream = System.IO.File.OpenRead(imagePath))
     {
+        var start = new Start();
         await botClient.SendPhotoAsync(chatId, new InputOnlineFile(stream),replyMarkup:inline);
     }
 }
